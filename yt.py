@@ -79,10 +79,12 @@ def downloadVideo(url,path,resolution="max"):
       print(E)  
 
 
-def downloadPlaylist(url,path,resolution="max"):
+def downloadPlaylist(url,path,resolution="max",limit=-1):
     try:
         playlist = Playlist(url)
         video_urls = playlist.video_urls
+        if limit+1 not in  [0,1]:
+            video_urls = video_urls[:limit]
         print("Downloading Playlist:",playlist.title)
         print("Total Videos:",len(video_urls))
         path = [path for _ in range(len(video_urls))]
@@ -114,6 +116,7 @@ if __name__ == '__main__':
     parser.add_argument("--loc", type=str, help="Location to Save Videos", default=download_dir)
     parser.add_argument("--res", type=str, help="Resolution of Video or Whole Playlist", default="max")
     parser.add_argument("--playlist", action="store_true", help="Specify this to Download Playlist")
+    parser.add_argument("--limit", type=int, help="No. of Videos of a playlist to Download from the start of Playlist", default=-1)
 
     # Parse the arguments
     args = parser.parse_args()
@@ -121,7 +124,7 @@ if __name__ == '__main__':
     # Use the arguments in your code
     if args.playlist:
         initTime = time.time()
-        downloadPlaylist(args.url, args.loc, args.res)
+        downloadPlaylist(args.url, args.loc, args.res, args.limit)
         finalTime = time.time()
         print(f"Processes Completed In: {time.strftime('%H:%M:%S', time.gmtime(finalTime-initTime))}")    
     else:

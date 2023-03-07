@@ -83,7 +83,7 @@ def downloadPlaylist(url,path,resolution="max",limit=-1):
     try:
         playlist = Playlist(url)
         video_urls = playlist.video_urls
-        if limit+1 not in  [0,1]:
+        if limit != -1:
             video_urls = video_urls[:limit]
         print("Downloading Playlist:",playlist.title)
         print("Total Videos:",len(video_urls))

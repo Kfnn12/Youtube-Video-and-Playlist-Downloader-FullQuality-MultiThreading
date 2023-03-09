@@ -13,7 +13,7 @@ import argparse
 def downloadVideo(url,path,resolution="max"):
   try:
       def progress_callback(stream: Stream, data_chunk: bytes, bytes_remaining: int) -> None:
-        pbar.update(len(data_chunk))
+        pbar.update(len(data_chunk)//10**6)
       
       # Create a YouTube object and get the highest resolution stream    
       yt = YouTube(url)
@@ -42,7 +42,7 @@ def downloadVideo(url,path,resolution="max"):
           return
       print("Download Started:",audio_stream_name)
       print()
-      pbar = tqdm(total=stream.filesize, unit="bytes")
+      pbar = tqdm(total=stream.filesize//10**6, unit="MB")
       print()
       stream.download(output_path=path, filename=video_stream_name, max_retries=2)
       pbar.close()
